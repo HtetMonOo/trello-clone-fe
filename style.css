@@ -1,17 +1,135 @@
 @charset "utf-8";
 /* CSS Document */
 
-/************************ BANNER ************************/
-
-* {
-    text-decoration: none;
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
     margin:0;
     padding:0;
     border:0;
     outline:0;
-    font-size:100%;
     vertical-align:baseline;
     background:transparent;
+}
+
+body {
+    line-height:1;
+}
+
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section {
+    display:block;
+}
+
+nav ul {
+    list-style:none;
+}
+
+blockquote, q {
+    quotes:none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content:'';
+    content:none;
+}
+
+a {
+    margin:0;
+    padding:0;
+    font-size:100%;
+    color: inherit;
+    vertical-align:baseline;
+    background:transparent;
+    text-decoration: none;
+}
+
+/* change colours to suit your needs */
+ins {
+    background-color:#ff9;
+    color:#000;
+    text-decoration:none;
+}
+
+/* change colours to suit your needs */
+mark {
+    background-color:#ff9;
+    color:#000;
+    font-style:italic;
+    font-weight:bold;
+}
+
+del {
+    text-decoration: line-through;
+}
+
+abbr[title], dfn[title] {
+    border-bottom:1px dotted;
+    cursor:help;
+}
+
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+/* change border colour to suit your needs */
+hr {
+    display:block;
+    height:1px;
+    border:0;
+    border-top:1px solid #cccccc;
+    margin:1em 0;
+    padding:0;
+}
+
+input, select {
+    vertical-align:middle;
+}
+
+
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  font-variant: normal;
+  line-height: 1em;
+  margin-left: .2em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+}
+/************************ MY CODE ***************/
+/************************ BANNER ************************/
+
+* {
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    text-decoration: none;
+}
+input {
+    border-radius: 3px;
+    border: solid 2px rgb(65, 93, 155);
+}
+input:focus {
+    border: solid 2px rgb(109, 132, 182);
 }
 body {
     background-image: url(img/beautiful-sunset-lake-landscape-wide.jpg);
@@ -82,7 +200,7 @@ nav>div>:nth-child(n) {
     background-color: transparent;
 }
 #board-name {
-    font-weight: bolder;
+    font-weight: 500;
     font-size: larger;
 }
 #nav1>div>:nth-child(n):hover {
@@ -94,22 +212,313 @@ nav>div>:nth-child(n) {
 
 /************************** CARDS *********************/
 
-#cards-holder {
+#container {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+    color: rgb(33, 10, 80);
+    align-items: flex-start;
+    overflow-x: auto;
 }
-#cards-holder>:nth-child(n) {
-    width: 200px;
-    background-color: #dfdfdf;
+#container::-webkit-scrollbar {
+    display: none;
+}
+#container>div, #list-input {
+    cursor: pointer;
+    min-width: 250px;
+    max-width: 250px;
+    background-color: #ebecf0;
     margin-left: 10px;
     border-radius: 3px;
+    padding: 7px;
+}
+#container>:last-child {
+    background-color: transparent;
+    padding: 0;
+    position: relative;
+}
+#add-list {
+    background: rgba(233, 236, 238, 0.219);
+    color: #5e6c84;
+    width: 250px;
+    margin-left: 0;
+    border-radius: 3px;
+    padding: 10px 3px 10px 3px;
+    display: inline-block;
+    transition: background-color 300ms ease-in-out;
+}
+#add-list:hover {
+    background: rgba(233, 236, 238, 0.5);
+}
+#listTitle {
+    min-width: 200px;
+    max-width: 200px;
+    padding: 3px 10px;
+}
+#list-input {
+    padding: 5px 10px;
+    z-index: 3;
+    visibility: hidden;
+    position: absolute;
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    left: 0;
+}
+#list-input>input {
+    min-width: 220px;
+    max-width: 220px;
+    margin-bottom: 10px; 
+}
+#list-input>div>:first-child {
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+    background-color: #39883f;
+    margin-right: 6px;
+}
+#list-input>div>:first-child:hover {
+    background-color: #529e58;
+}
+#container>div>div {
+    display: flex;
+    justify-content: space-between;
+}
+#container>div>div>label {
+    font-weight: 500;
+    cursor: pointer;
+    flex: 1 0 auto;
+} 
+#container>div>div>input {
+    position: absolute;
+    visibility: hidden;
+}
+#card {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    border-radius: 3px;
+    background-color: #fff;
+    margin-bottom: 10px;
+    box-shadow: rgb(197, 192, 192) 0px 2px 0.1px ;
+    position: relative;
+}
+#card>div {
+    margin: 5px 8px 0 8px;
+}
+#card>:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+#label {
+    width: 45px;
+    height: 8px;
+    border-radius: 4px;
+}
+#card>i{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border-radius: 2px;
+    visibility: hidden;
+}
+#card>i:hover {
+    background-color: #ebecf0
+}
+#member, #userp {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: #ebecf0;
+    justify-self: flex-end;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 3px;
+}
+#card:hover {
+    background-color: rgba(255, 255, 255, 0.692);
+}
+#card:hover i {
+    visibility: visible;
+}
+#add-card{
+    display: flex;
+    justify-content: space-between;
+}
+#add-card>a {
+    color: #5e6c84;
+    display: block;
+    padding: 3px;
+    border-radius: 3px;
+    transition: all 300ms ease-in-out;
+}
+#add-card>:first-child {
+    flex: 1 0 auto;
+}
+#add-card>a:hover {
+    background-color: rgba(9,30,66,.08);
+    color: #172b4d;
+}
+#card-input {
+    visibility: hidden; 
+    z-index: 10; 
+    position: absolute;
+    top: 1;
+    left: 1;
+}
+#modal {
+    visibility: hidden;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-color: rgba(0,0,0,.64);
+    display: flex;
+    justify-content: center;
+    overflow-y: auto;
+}
+#modal::-webkit-scrollbar {
+    display: none;
+}
+#modal>div {
+    margin-top: 50px;
+    width: 800px;
+    background-color: #f4f5f7;
+    border-radius: 2px;
+    position: relative;
+    height: max-content;
+    color: #5e6c84;
+    display: flex;
+    justify-content: space-evenly;
+}
+#card-info {
+    width: 78%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+#card-info>div {
+    display: flex;
+    margin-bottom: 20px;
+}
+#card-info>div>i {
+    padding: 10px 15px 5px 5px;
+    font-size: 16px;
+}
+#card-info>div>div {
+    flex: 1 1 auto;
+}
+
+#comment {
+    flex: 1 1 auto;
+    margin-left: 10px;
+    border: none;
     padding: 10px;
 }
-#cards-holder>:last-child {
-    background: rgba(233, 236, 238, 0.219);
-    color: rgb(33, 10, 80);
+h1,h2 {
+    font-weight: 600;
+    line-height: 33px;
+    font-size: 20px;
+    color: #172b4d;
 }
-#add-card:hover {
-    background: rgba(233, 236, 238, 0.5);
+h2 {
+    font-size: 16px;
+    padding-right: 15px;
+}
+#card-info a {
+    background-color: #ebecf0;
+    border-radius: 3px;
+    padding: 5px 10px;
+    transition: background-color 300ms ease-in-out;
+}
+#card-info a:hover {
+    background: rgba(9,30,66,.08);
+}
+#parent-list {
+    text-decoration: underline;
+    padding: 0 !important;
+    background-color: transparent !important; 
+}
+#parent-list:hover{
+    background-color: transparent !important;
+}
+#mem-label-wrapper {
+    display: flex;
+    margin-top: 10px;
+}
+#card-labels>div>div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 30px;
+    border-radius: 3px;
+    margin-right: 3px;
+    color: white;
+}
+#card-labels>div>:last-child {
+    background-color: #ebecf0;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    color: inherit;
+}
+.wrapper {
+    width: 100%;
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
+}
+#card-update {
+    padding-right: 20px;
+    margin-top: 70px;
+    width: 22%;
+    display: flex;
+    flex-direction: column;
+}
+#card-update>:first-child {
+    cursor: inherit;
+    display: flex;
+    padding: 0;
+    justify-content: space-between;
+    background-color: transparent;
+}
+#card-update>:first-child:hover {
+    background-color: transparent;
+}
+#card-update>div {
+    cursor: pointer;
+    background-color:#ebecf0;
+    margin-left: 0;
+    border-radius: 3px;
+    padding: 10px 10px;
+    margin-bottom: 5px;
+    transition: background-color 300ms ease-in-out;
+}
+#card-update>div:hover, #setting:hover {
+    background-color: rgba(9,30,66,.08);
+}
+#setting {
+    cursor: pointer;
+    background-color: #ebecf0;
+    border-radius: 3px;
+    border-radius: 2px;
+    padding: 5px;
+}
+#modal>div>i {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+#card-update>h3 {
+    margin-top: 10px;
 }

@@ -23,6 +23,7 @@ time, mark, audio, video {
 
 body {
     line-height:1;
+    height: 100vh;
 }
 
 article,aside,details,figcaption,figure,
@@ -124,12 +125,18 @@ input, select {
     font-weight: 400;
     text-decoration: none;
 }
+@font-face {
+    font-family: 'Lobster-Regular';
+    src: url("font/Lobster-Regular.ttf");
+}
 input {
+    margin-top: 5px;
     border-radius: 3px;
+    outline: none;
     border: solid 2px rgb(65, 93, 155);
 }
 input:focus {
-    border: solid 2px rgb(109, 132, 182);
+    outline: none;
 }
 body {
     background-image: url(img/beautiful-sunset-lake-landscape-wide.jpg);
@@ -185,8 +192,13 @@ nav>div>:nth-child(n) {
     position: absolute;
     right: 50%;
     background-color: transparent;
-    font-size: larger;
+    font-size: x-large;
     color: #cccccc;
+    font-family: Lobster-Regular;
+    transition: all 300ms ease-in-out;
+}
+#trello-link>i {
+    font-size: x-large;
 }
 #trello-link:hover {
     color: #fff;
@@ -216,19 +228,24 @@ nav>div>:nth-child(n) {
     display: flex;
     color: rgb(33, 10, 80);
     align-items: flex-start;
-    overflow-x: auto;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    max-height: calc(100vh - 100px);
 }
-#container::-webkit-scrollbar {
+#container>div>span {
+    overflow-y: scroll;
+    max-height: 600px;
+}
+#container::-webkit-scrollbar, #container>div>span::-webkit-scrollbar {
     display: none;
 }
 #container>div, #list-input {
     cursor: pointer;
-    min-width: 250px;
-    max-width: 250px;
+    min-width: 270px;
+    max-width: 270px;
     background-color: #ebecf0;
     margin-left: 10px;
     border-radius: 3px;
-    padding: 7px;
 }
 #container>:last-child {
     background-color: transparent;
@@ -238,12 +255,12 @@ nav>div>:nth-child(n) {
 #add-list {
     background: rgba(233, 236, 238, 0.219);
     color: #5e6c84;
-    width: 250px;
+    width: 243px;
     margin-left: 0;
     border-radius: 3px;
     padding: 10px 3px 10px 3px;
     display: inline-block;
-    transition: background-color 300ms ease-in-out;
+    transition: background-color 300ms ease-in;
 }
 #add-list:hover {
     background: rgba(233, 236, 238, 0.5);
@@ -252,45 +269,57 @@ nav>div>:nth-child(n) {
     min-width: 200px;
     max-width: 200px;
     padding: 3px 10px;
+    position: absolute;
+    visibility: hidden;
 }
 #list-input {
-    padding: 5px 10px;
     z-index: 3;
+    padding: 0;
+    display: flex;
+    flex-flow: column;
     visibility: hidden;
     position: absolute;
     margin-left: 0;
-    display: flex;
-    flex-direction: column;
     top: 0;
     left: 0;
+    transition: all 300ms ease-in-out;
 }
 #list-input>input {
-    min-width: 220px;
-    max-width: 220px;
-    margin-bottom: 10px; 
+    margin: 5px 5px 0 5px; 
+    padding: 10px;
 }
-#list-input>div>:first-child {
+#list-input>div {
+    margin: 10px 5px;
+}
+#list-input>div>:first-child, #card-input>div>:first-child {
     color: white;
     padding: 5px 10px;
     border-radius: 3px;
     background-color: #39883f;
+    transition: background-color 300ms ease-in-out;
     margin-right: 6px;
 }
-#list-input>div>:first-child:hover {
+#list-input>div>:first-child:hover, #card-input>div>:first-child:hover {
     background-color: #529e58;
 }
 #container>div>div {
     display: flex;
     justify-content: space-between;
 }
+#container>div>:first-child {
+    margin: 0 7px;
+}
 #container>div>div>label {
     font-weight: 500;
     cursor: pointer;
     flex: 1 0 auto;
+    padding-top: 10px !important;
 } 
-#container>div>div>input {
-    position: absolute;
-    visibility: hidden;
+#container>div>div>i {
+    padding: 12px 15px !important;
+}
+#container>div>div:not(:last-child) {
+    margin-bottom: 10px !important;
 }
 #card {
     cursor: pointer;
@@ -298,9 +327,10 @@ nav>div>:nth-child(n) {
     flex-direction: column;
     border-radius: 3px;
     background-color: #fff;
-    margin-bottom: 10px;
+    margin: 0 7px 10px 7px;
     box-shadow: rgb(197, 192, 192) 0px 2px 0.1px ;
     position: relative;
+    transition: background-color 300ms ease-in-out;
 }
 #card>div {
     margin: 5px 8px 0 8px;
@@ -322,6 +352,7 @@ nav>div>:nth-child(n) {
     right: 5px;
     border-radius: 2px;
     visibility: hidden;
+    transition: background-color 300ms ease-in-out;
 }
 #card>i:hover {
     background-color: #ebecf0
@@ -344,15 +375,17 @@ nav>div>:nth-child(n) {
     visibility: visible;
 }
 #add-card{
-    display: flex;
-    justify-content: space-between;
+    position: relative;
+    padding: 0;
 }
 #add-card>a {
     color: #5e6c84;
     display: block;
     padding: 3px;
+    margin: 0 7px 10px 7px;
     border-radius: 3px;
-    transition: all 300ms ease-in-out;
+    transition: background-color 300ms ease-in;
+    transition: color 300ms ease-in;
 }
 #add-card>:first-child {
     flex: 1 0 auto;
@@ -362,11 +395,31 @@ nav>div>:nth-child(n) {
     color: #172b4d;
 }
 #card-input {
-    visibility: hidden; 
-    z-index: 10; 
+    visibility: hidden;
+    z-index: 3; 
     position: absolute;
-    top: 1;
-    left: 1;
+    top: 0;
+    left: 0;
+    background-color: #ebecf0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    width: 270px;  
+    transition: all 300ms ease-in-out;
+}
+#card-input>textarea {
+    width: 242px;
+    padding: 7px;
+    border-radius: 3px;
+    resize: none;
+    border-color: white;
+    margin: 0 7px 10px 7px;
+    box-shadow: rgb(197, 192, 192) 0px 2px 0.1px ;
+}
+#card-input>textarea:focus {
+    outline: none;
+}
+#card-input>div {
+    margin: 0 7px 10px 7px;
 }
 #modal {
     visibility: hidden;
@@ -381,6 +434,7 @@ nav>div>:nth-child(n) {
     display: flex;
     justify-content: center;
     overflow-y: auto;
+    transition: all 300ms ease-in-out;
 }
 #modal::-webkit-scrollbar {
     display: none;
@@ -388,13 +442,15 @@ nav>div>:nth-child(n) {
 #modal>div {
     margin-top: 50px;
     width: 800px;
+    height: max-content;
     background-color: #f4f5f7;
     border-radius: 2px;
     position: relative;
-    height: max-content;
     color: #5e6c84;
     display: flex;
     justify-content: space-evenly;
+    padding-bottom: 20px;
+    margin-bottom: 100px;
 }
 #card-info {
     width: 78%;
@@ -417,9 +473,9 @@ nav>div>:nth-child(n) {
 
 #comment {
     flex: 1 1 auto;
-    margin-left: 10px;
+    margin: 0  0 0 10px;
     border: none;
-    padding: 10px;
+    padding: 8px 10px;
 }
 h1,h2 {
     font-weight: 600;
@@ -498,11 +554,16 @@ h2 {
     margin-left: 0;
     border-radius: 3px;
     padding: 10px 10px;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     transition: background-color 300ms ease-in-out;
 }
 #card-update>div:hover, #setting:hover {
     background-color: rgba(9,30,66,.08);
+}
+#line {
+    background-color:#ebecf0;
+    height: 2px;
+    margin-bottom: 8px;
 }
 #setting {
     cursor: pointer;
@@ -511,13 +572,21 @@ h2 {
     border-radius: 2px;
     padding: 5px;
 }
-#modal>div>i {
+#modal>div>:last-child {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 10px;
+    top: 5px;
+    right: 5px;
+    height: 40px;
+    width: 40px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 20px;
+    transition: background-color 300ms ease-in;
+}
+#modal>div>:last-child:hover {
+    background-color: #ebecf0;
 }
 #card-update>h3 {
     margin-top: 10px;

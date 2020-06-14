@@ -1,69 +1,26 @@
-function addListInput(){
-    document.getElementById("list-input").style.visibility = 'visible';
-}
-function cancel(){
-    document.getElementById("list-input").style.visibility="hidden";
-}
-function editListTitle(e){
-    e.target.setAttribute("style","position: relative;")
-    e.target.nextElementSibling.setAttribute("style", "visibility: visible;")
-    e.target.nextElementSibling.addEventListener("keyup", function(event){
-        event.preventDefault();
-        if(event.keyCode==13){
-            updateList(event);
-        }
-    })
-}
-function addNewCard(e) {
-    e.target.parentElement.setAttribute("style","position: relative;")
-    e.target.nextElementSibling.nextElementSibling.setAttribute("style", "visibility: visible;")
-}
+
 
 const endPoint = "http://localhost:8081/api/v1"
-
 var lists = [];
-
-    display();
+display();
   
-
-function addList() {
-    const pos=document.getElementById("container").childElementCount;
-    const tit=document.getElementById("newList").value;
-    const data = {
-        "title": tit,
-        "position": pos,
-        "status": 1
-    }
-    fetch(endPoint+"/lists", {
-        method: 'post',
-        headers: {
-            'content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response=> response.json())
-    .then(data => {
-        console.log(data)
-        display();
-    })
-}
-
 function display() {
     fetch(endPoint+"/lists")
     .then(response => response.json())
     .then(data => {
         lists = data;
         const listStr = data.map(list => getList(list)).join("") + 
-        `<div>
-            <a href="#" id="add-list" onclick="addListInput()">
+        `
+        <div>
+            <a href="#" id="add-list" onclick="addListClicked()">
                 &ThickSpace; <i class="fas fa-plus"></i>
                 &ThinSpace; Add another list
             </a> 
             <div id="list-input">
-                <input type="text" id="newList" placeholder="Enter list title...">
+                <input type="text" id="newList" placeholder="Enter list title..." autofocus>
                 <div>
                     <a href="#" onclick="addList()">Add List</a>
-                    <a href="#" onclick="cancel()"><i style="font-size: 20px;" class="fas fa-times"></i></a>
+                    <a href="#" onclick="cancel(event)"><i style="font-size: 20px;" class="fas fa-times"></i></a>
                 </div> 
             </div>    
         </div> `
@@ -71,9 +28,14 @@ function display() {
        document.getElementById('container').innerHTML = listStr;
 
     })
+
+    fetch(endPoint+"/accounts")
+    .then(response => response.json())
+    .then(data => {
+        const accStr = data.map(acc => getMember(acc)).join("");
+        document.getElementById('allMem').innerHTML = accStr;
+    })
 }
-
-
 
 function getList(list) {
     const cardStr = list.cards.map(c => getCard(c, list)).join("");
@@ -81,26 +43,27 @@ function getList(list) {
     <div>
     <div style="height: 35px;">
         <label onclick="editListTitle(event)" style="padding: 5px 10px;">${list.title}</label>
-        <input type="text" id="listTitle" listid="${list.id}" listpos="${list.position}" value="${list.title}" >
+        <input type="text" id="listTitle" listid="${list.id}" listpos="${list.position}" value="${list.title}" autofocus>
         <i class="fas fa-ellipsis-h"></i>
     </div>
-    ${cardStr}
+    <span> ${cardStr} </span>
     <div id="add-card">
-        <a href="#" onclick="addNewCard(event)">
+        <a href="#" onclick="addCardClicked(event)">
             &ThickSpace; <i class="fas fa-plus"></i>
             &ThinSpace; Add another card
         </a>
         <a href="#" title="Create from template...">
             <i class="fas fa-money-check"></i>
-        </a>
+        </a> 
         <div id="card-input">
-                <textarea id="newCard" placeholder="Enter a title for this card..."></textarea>
+                <textarea id="newCard" placeholder="Enter a title for this card..." autofocus></textarea>
                 <div>
-                    <a href="#" onclick="addList()">Add Card</a>
-                    <a href="#" onclick="cancel()"><i style="font-size: 20px;" class="fas fa-times"></i></a>
+                    <a href="#" onclick="addCard(event)" listid="${list.id}">Add Card</a>
+                    <a href="#" onclick="cancel(event)"><i style="font-size: 20px;" class="fas fa-times"></i></a>
                 </div> 
-        </div> 
+        </div>
     </div>
+
 </div>`
 }
 
@@ -136,6 +99,28 @@ function getLabel(label, n) {
 
 function getChecklist(chk) {
 
+}
+
+function addList() {
+    const pos=document.getElementById("container").childElementCount;
+    const tit=document.getElementById("newList").value;
+    const data = {
+        "title": tit,
+        "position": pos,
+        "status": 1
+    }
+    fetch(endPoint+"/lists", {
+        method: 'post',
+        headers: {
+            'content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response=> response.json())
+    .then(data => {
+        console.log(data)
+        display();
+    })
 }
 
 function getListIdAndCardId(target) {
@@ -240,6 +225,52 @@ function updateList(e){
     }
     fetch(endPoint+"/lists/"+id, {
         method: 'put',
+        headers: {
+            'content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response=> response.json())
+    .then(data => {
+        console.log(data)
+        display();
+    })
+}
+function addListClicked(){
+    document.getElementById("list-input").style.visibility = 'visible';
+}
+function addCardClicked(e) {
+    e.target.nextElementSibling.nextElementSibling.setAttribute("style", "visibility: visible;")
+}
+function cancel(e){
+    e.target.parentElement.parentElement.parentElement.setAttribute("style", "visibility: hidden;");
+}
+function editListTitle(e){
+    e.target.setAttribute("style","position: relative;")
+    e.target.nextElementSibling.setAttribute("style", "visibility: visible;")
+    e.target.nextElementSibling.addEventListener("keyup", function(event){
+        event.preventDefault();
+        if(event.keyCode==13){
+            updateList(event);
+        }
+    })
+}
+function addCard(e){
+    const CardPos=e.target.parentElement.parentElement.parentElement.parentElement.childElementCount-1;
+    const CardTit=e.target.parentElement.previousElementSibling.value;
+    const listId=e.target.getAttribute("listid");
+    const data = {
+        "title": CardTit,
+        "description": null,
+        "due_date": null,
+        "position": CardPos,
+        "status": 1,
+        "list": {
+            "id": listId
+        }
+}
+    fetch(endPoint+"/cards", {
+        method: 'post',
         headers: {
             'content-Type': 'application/json',
         },
